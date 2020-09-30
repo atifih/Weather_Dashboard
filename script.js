@@ -19,7 +19,7 @@ $("#run-search").on("click", function (e) {
     e.preventDefault();
     var APIkey = "406718fbed1888cdf91f422159a0c803";
     //  var cityForecast = "Seattle";
-    var cityForecast = $("#search-city").value;
+    var cityForecast = $("#search-city")[0].value;
     console.log("City is" + cityForecast);
     // Here we are building the URL we need to query the database
     var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityForecast}&units=metric&appid=${APIkey}`
@@ -30,5 +30,10 @@ $("#run-search").on("click", function (e) {
     }).then(function (response) {
         $("#weatherToday").append(JSON.stringify(response));
         console.log(response);
+        $("#todayW").html(JSON.stringify(response.name));
+
+        var icon_id = response.weather[0].icon;
+        var icon_url = "http://openweathermap.org/img/wn/" + icon_id + ".png";
+        $("#todayW").html("<img src='" + icon_url + ">");
     })
 })
