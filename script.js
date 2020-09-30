@@ -14,18 +14,21 @@ $("#day5Button").text(day5);
 
 
 
-$("#submitButton").on("click", function (e) {
+$("#run-search").on("click", function (e) {
 
+    e.preventDefault();
     var APIkey = "406718fbed1888cdf91f422159a0c803";
-    var dayForecast = $("search-city").val();
+    //  var cityForecast = "Seattle";
+    var cityForecast = $("#search-city").value;
+    console.log("City is" + cityForecast);
     // Here we are building the URL we need to query the database
-    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?q=${dayForecast}&appid=${APIkey}"
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityForecast}&units=metric&appid=${APIkey}`
     console.log(queryURL);
     $.ajax({
         url: queryURL,
         method: "GET",
     }).then(function (response) {
-        $("#weatherToday").text(JSON.stringify(response));
-        console.log(JSON.stringify(response));
+        $("#weatherToday").append(JSON.stringify(response));
+        console.log(response);
     })
 })
