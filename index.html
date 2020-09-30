@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!--  Responsive meta tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Weather Dashboard</title>
+    <!-- Bootstrap CSS CDN  -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+
+
+</head>
+
+<body>
+
+    <!-- Main Bootstrap Search -->
+    <div class="container col-sm-12">
+
+        <!-- Jumbotron for Title -->
+        <div class="jumbotron" style="background-color: #205a31 ; color: white;">
+            <h1 class="text-center">
+                <strong>
+                    <i class="title"></i> Weather Dashboard</strong>
+            </h1>
+        </div>
+
+        <!-- Row for Searching Cities for the Weather -->
+        <div class="row">
+            <div class="col-sm-12">
+                <br>
+
+                <!-- Here we create an HTML Form for handling the inputs-->
+                <form role="form">
+
+                    <!-- Here we create the text box for capturing the search city-->
+                    <div class="form-group col-sm-4">
+                        <label for="search">Search for a city:</label>
+                        <input type="text" class="form-control" id="search-city">
+                        <!-- History of city searches -->
+                        <ul class="list-group col-sm-8">
+                            <li class="list-group-item">City 1</li>
+                            <li class="list-group-item">City 2</li>
+                            <li class="list-group-item">City 3</li>
+                            <li class="list-group-item">City 4</li>
+                            <li class="list-group-item">City 5</li>
+                        </ul>
+                    </div>
+                    <hr />
+                    <!--  Today's Weather forecast-->
+                    <div class="card col-sm-12">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text" id="weatherToday">Some quick example text to build on the card title
+                                and make up the bulk
+                                of the card's
+                                content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                    <hr />
+
+
+
+                    <!-- 5-day weather forecast -->
+                    <div class="card-group">
+                        <div class="card-day1 col-sm-2">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional
+                                    content. This content is a little bit longer.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card-day2 col-sm-2">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This card has supporting text below as a natural lead-in to
+                                    additional content.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card-day3 col-sm-2">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional
+                                    content. This card has even longer content than the first to show that equal height
+                                    action.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card-4 col-sm-2">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional
+                                    content. This card has even longer content than the first to show that equal height
+                                    action.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                        <div class="card-day5 col-sm-2">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a wider card with supporting text below as a natural
+                                    lead-in to additional
+                                    content. This card has even longer content than the first to show that equal height
+                                    action.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Here we have our final submit button -->
+                    <button type="submit" class="btn btn-default" id="run-search">
+                        <i class="fa fa-search"></i> Search</button>
+                    <button class="btn btn-default" id="clear-all">
+                        <i class="fa fa-trash"></i> Clear Results</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- This row will handle all of the retrieved articles -->
+    <div class="row">
+        <div class="col-sm-12">
+            <br>
+
+            <!-- This card will initially be made up of a card and wells for each of the articles retrieved -->
+            <div class="card">
+
+                <!-- card Heading for the retrieved articles box -->
+                <div class="card-header">
+                    <strong>
+                        <i class="fa fa-table"></i> Top Articles</strong>
+                </div>
+
+                <!-- This main card will hold each of the resulting articles -->
+                <div class="card-body" id="article-section">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- jQuery JS -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <!-- Code to the JavaScript File -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>
