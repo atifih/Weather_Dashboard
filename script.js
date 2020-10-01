@@ -30,10 +30,10 @@ $("#run-search").on("click", function (e) {
     }).then(function (response) {
         $("#weatherToday").append(JSON.stringify(response));
         console.log(response);
-        $("#todayW").html(JSON.stringify(response.name));
+        $("#todayW").append((response.name));
 
-        var icon_id = response.weather[0].icon;
-        var icon_url = "http://openweathermap.org/img/wn/" + icon_id + ".png";
-        $("#todayW").html("<img src='" + icon_url + ">");
+        var icon_id = rdesponse.weather[0].icon;
+        var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
+        $("#todayW").append(`<img src="${icon_url}">`);
     })
 })
