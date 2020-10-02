@@ -6,17 +6,13 @@ var day3 = moment().add(3, "days").calendar("DD MMM YYYY");
 var day4 = moment().add(4, "days").calendar("DD MMM YYYY");
 var day5 = moment().add(5, "days").calendar("DD MMM YYYY");
 
-$("#day1Button").text(day1 + "(tomorrow!)");
-$("#day2Button").text(day2);
-$("#day3Button").text(day3);
-$("#day4Button").text(day4);
-$("#day5Button").text(day5);
+
 
 var lat;
 var long;
 
 var cityHistory = [];
-var count = 0;
+
 
 $("#run-search").on("click", function (e) {
 
@@ -37,47 +33,26 @@ $("#run-search").on("click", function (e) {
         console.log(response);
         $("#todayW").empty();
         $("#todayW").append((response.name));
+        cityHistory.push(response.name); // populate cityHistory array.
         // Save searched city in history.
-        /* 
-        if (city1 == "") {
-            city1 = response.name;
-            $("#City1").append(city1);
-        } else if (city2 == "") {
-            city2 = response.name;
-            $("#City2").append(city2);
-        } else if (city3 == "") {
-            city3 = response.name;
-            $("#City3").append(city3);
-        } else if (city4 == "") {
-            city4 = response.name;
-            $("#City4").append(city4);
 
-        } else if (city5 == "") {
-            city5 = response.name;
-            $("#City5").append(city5);
-        }
-        */
-        if (count === 4) {
+        if (cityHistory.length === 5) {
             // reset city history.
-            count = 0;
             cityHistory.splice(0, 5);
         }
-        // $("#cityHistory").append(response.name);
 
         // Output the city history to user display.
-        for (var i = 0; i < count; i++) {
-            cityHistory[i].append(response.name);
-            console.log("City History is:  " + cityHistory[i]);
+        for (var i = 0; i < cityHistory.length; i++) {
             if (i === 0) {
-                $("#button1").html = resonse.name;
+                $("#button1").append(cityHistory[i]);
             } else if (i === 1) {
-                $("#button2").html = response.name;
+                $("#button2").append(cityHistory[i]);
             } else if (i === 2) {
-                $("#button3").html = rseponse.name;
+                $("#button3").append(cityHistory[i]);
             } else if (i === 3) {
-                $("#button4").html = response.name;
+                $("#button4").append(cityHistory[i]);
             } else if (i === 4) {
-                $("#button5").html = response.name;
+                $("#button5").append(cityHistory[i]);
             }
         }
 
@@ -126,3 +101,5 @@ $("#run-search").on("click", function (e) {
     })
 
 })
+console.log(day1);
+$("card1").text(day1);
