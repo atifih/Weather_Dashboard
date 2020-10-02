@@ -30,7 +30,7 @@ $("#run-search").on("click", function (e) {
         method: "GET",
     }).then(function (response) {
         //  $("#weatherToday").append(JSON.stringify(response));
-        // console.log(response);
+        console.log(response);
         $("#todayW").append((response.name));
 
         var icon_id = response.weather[0].icon;
@@ -40,8 +40,9 @@ $("#run-search").on("click", function (e) {
         $("#tempToday").append(response.main.temp);
         $("#humidityToday").append(response.main.humidity)
         $("#windToday").append(response.wind.speed);
-        lat = "" + response.coord.lat;
-        long = "" + response.coord.lon;
+
+        lat = response.coord.lat.toString();
+        long = response.coord.lon.toString();
 
 
         console.log(lat);
@@ -49,15 +50,27 @@ $("#run-search").on("click", function (e) {
         //  $("#weatherToday").append("UV Index: " + response.main.uv);
 
 
-    })
-    // Make a second ajax call for uv .
-    var queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?appid=${APIkey}&lat=${lat}&lon=${long}`
-    console.log(queryURL2);
-    $.ajax({
-        url: queryURL2,
-        method: "GET",
     }).then(function (response2) {
-        console.log("Response 2 is :" + response2);
+        var queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        // Make another ajax call to retrieve the current U.V. Index
+        $.ajax({
+            url: queryURL2,
+            method: "GET",
+        }).then(function (response2) {
+            console.log("Response 2 is", response2);
+            uvIndex = response2.value;
+            $("#uvToday").append(uvIndex);
+            if (uvIndex > 2 && uvIndex < 5) {
+                $("uvToday").attr("id", "#favourable");
+                //set my class or id to have a certain css style color
+            } else if (uvIndex >= 5 && uvIndex < 7) {
+                //set my class or id to have a different css style color
+                $("uvToday").attr("id", "#moderate");
+            } else {
+                //set my css color to a style color
+                $("uvToday").attr("id", "#severe");
+            }
+        })
     })
 
 })
