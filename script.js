@@ -15,11 +15,15 @@ $("#day5Button").text(day5);
 var lat;
 var long;
 
+var cityHistory = [];
+var count = 0;
+
 $("#run-search").on("click", function (e) {
 
     e.preventDefault();
     var APIkey = "406718fbed1888cdf91f422159a0c803";
     //  var cityForecast = "Seattle";
+    // var cityForecast = $("#search-city")[0].value;
     var cityForecast = $("#search-city")[0].value;
     console.log("City is" + cityForecast);
     // Here we are building the URL we need to query the database
@@ -31,13 +35,60 @@ $("#run-search").on("click", function (e) {
     }).then(function (response) {
         //  $("#weatherToday").append(JSON.stringify(response));
         console.log(response);
+        $("#todayW").empty();
         $("#todayW").append((response.name));
+        // Save searched city in history.
+        /* 
+        if (city1 == "") {
+            city1 = response.name;
+            $("#City1").append(city1);
+        } else if (city2 == "") {
+            city2 = response.name;
+            $("#City2").append(city2);
+        } else if (city3 == "") {
+            city3 = response.name;
+            $("#City3").append(city3);
+        } else if (city4 == "") {
+            city4 = response.name;
+            $("#City4").append(city4);
+
+        } else if (city5 == "") {
+            city5 = response.name;
+            $("#City5").append(city5);
+        }
+        */
+        if (count === 4) {
+            // reset city history.
+            count = 0;
+            cityHistory.splice(0, 5);
+        }
+        // $("#cityHistory").append(response.name);
+
+        // Output the city history to user display.
+        for (var i = 0; i < count; i++) {
+            cityHistory[i].append(response.name);
+            console.log("City History is:  " + cityHistory[i]);
+            if (i === 0) {
+                $("#button1").html = resonse.name;
+            } else if (i === 1) {
+                $("#button2").html = response.name;
+            } else if (i === 2) {
+                $("#button3").html = rseponse.name;
+            } else if (i === 3) {
+                $("#button4").html = response.name;
+            } else if (i === 4) {
+                $("#button5").html = response.name;
+            }
+        }
+
+
 
         var icon_id = response.weather[0].icon;
         var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
+
         $("#todayW").append("(" + today + ")");
         $("#todayW").append(`<img src="${icon_url}">`);
-        $("#tempToday").append(response.main.temp);
+        $("#tempToday").append(response.main.temp.toFixed(2));
         $("#humidityToday").append(response.main.humidity)
         $("#windToday").append(response.wind.speed);
 
@@ -57,19 +108,20 @@ $("#run-search").on("click", function (e) {
             url: queryURL2,
             method: "GET",
         }).then(function (response2) {
-            console.log("Response 2 is", response2);
+            // console.log("Response 2 is", response2);
             uvIndex = response2.value;
             $("#uvToday").append(uvIndex);
             if (uvIndex > 2 && uvIndex < 5) {
-                $("uvToday").attr("id", "#favourable");
+                $("#uvToday").attr("id", "favourable");
                 //set my class or id to have a certain css style color
             } else if (uvIndex >= 5 && uvIndex < 7) {
                 //set my class or id to have a different css style color
-                $("uvToday").attr("id", "#moderate");
+                $("#uvToday").attr("id", "moderate");
             } else {
                 //set my css color to a style color
-                $("uvToday").attr("id", "#severe");
+                $("#uvToday").attr("id", "severe");
             }
+
         })
     })
 
