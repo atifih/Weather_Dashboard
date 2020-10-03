@@ -1,10 +1,10 @@
 var today = moment().format("D/MM/YYYY");
 
-var day1 = moment().add(1, "days").calendar("DD MMM YYYY");
-var day2 = moment().add(2, "days").calendar("DD MM YYYY")
-var day3 = moment().add(3, "days").calendar("DD MMM YYYY");
-var day4 = moment().add(4, "days").calendar("DD MMM YYYY");
-var day5 = moment().add(5, "days").calendar("DD MMM YYYY");
+var day1 = moment().add(1, "days");
+var day2 = moment().add(2, "days");
+var day3 = moment().add(3, "days");
+var day4 = moment().add(4, "days");
+var day5 = moment().add(5, "days");
 
 
 
@@ -12,18 +12,19 @@ var lat;
 var long;
 
 var cityHistory = [];
-
-
+var APIkey = "406718fbed1888cdf91f422159a0c803";
+var cityForecast;
 $("#run-search").on("click", function (e) {
 
     e.preventDefault();
-    var APIkey = "406718fbed1888cdf91f422159a0c803";
+    // var APIkey = "406718fbed1888cdf91f422159a0c803";
     //  var cityForecast = "Seattle";
     // var cityForecast = $("#search-city")[0].value;
-    var cityForecast = $("#search-city")[0].value;
+    var cityWeather = $("#search-city")[0].value;
+    cityForecast = cityWeather;
     console.log("City is" + cityForecast);
     // Here we are building the URL we need to query the database
-    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityForecast}&units=metric&appid=${APIkey}`
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
     console.log(queryURL);
     $.ajax({
         url: queryURL,
@@ -57,7 +58,7 @@ $("#run-search").on("click", function (e) {
         }
 
 
-
+        // Generate weather icon.
         var icon_id = response.weather[0].icon;
         var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
 
@@ -102,4 +103,21 @@ $("#run-search").on("click", function (e) {
 
 })
 console.log(day1);
-$("card1").text(day1);
+$("#card1").text(day1.format("D/MM/YYYY"));
+// Make another ajax call to retrieve the current U.V. Index
+var queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityForecast}&units=metric&appid=${APIkey}`
+$.ajax({
+    url: queryURLa,
+    method: "GET",
+}).then(function (response3) {
+    console.log("Response 3 is", response3);
+    // Generate weather icon.
+    var icon_id = response3.weather[0].icon;
+    var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
+
+})
+$("#card2").text(day2.format("D/MM/YYYY"));
+$("#card3").text(day3.format("D/MM/YYYY"));
+$("#card4").text(day4.format("D/MM/YYYY"));
+$("#card5").text(day5.format("D/MM/YYYY"));
+
