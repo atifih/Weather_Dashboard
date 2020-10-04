@@ -14,6 +14,7 @@
 
     <!-- Link for external css file-->
     <link rel="stylesheet" href="style.css" />
+    <script src="https://kit.fontawesome.com/4b2f8a193a.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -22,29 +23,29 @@
     <div class="container col-sm-12">
 
         <!-- Jumbotron for Title -->
-        <div class="jumbotron" style="background-color: #205a31 ; color: white;">
-            <h1 class="text-center">
-                <strong>
-                    <i class="title"></i> Weather Dashboard</strong>
-            </h1>
+        <div class="jumbotron a" style="background-color: #205a31 ; color: white;">
+            <h1 <i class="fas fa-temperature-high" </i>
+                Weather Dashboard</h1>
         </div>
 
         <!-- Row for Searching Cities for the Weather -->
-        <div class="row">
+        <div class=" row">
             <div class="col-sm-12">
                 <br>
+
 
                 <!-- Here we create an HTML Form for handling the inputs-->
                 <form role="form">
 
                     <!-- Here we create the text box for capturing the search city-->
-                    <div class="form-group col-sm-4">
+                    <div class="form-group">
                         <label for="search">Search for a city:</label>
                         <div class="input-group sm-3">
-                            <input type="text" class="form-control" id="search-city" placeholder="City"
-                                aria-label="City Name" aria-describedby="button-addon2">
+                            <input type="text" class="form-control" id="search-city" placeholder="Search City"
+                                aria-label="Search for city" aria-describedby="button-addon2">
                             <div class="input-group-append">
-                                <button type="submit" class="btn btn-primary" id="run-search">Search</button>
+                                <button type="submit" id="run-search" <i class=" fas fa-search" </i> </i> </button>
+                                <button class=" btn btn-secondary" type="clear-all" id="Clear">Clear</button>
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                             id="button1"></button>
                         <button type="button" class="list-group-item list-group-item-action" id="button2"></button>
                         <button type="button" class="list-group-item list-group-item-action" id="button3"></button>
-                        <button type="button" class="list-group-item list-group-item-action" id="button 4"></button>
+                        <button type="button" class="list-group-item list-group-item-action" id="button4"></button>
                         <button type="button" class="list-group-item list-group-item-action" id="button5"></button>
                     </div>
             </div>
@@ -64,10 +65,10 @@
                 <!--  <img src="..." class="card-img-top" alt="...">  -->
                 <div class="card-body">
                     <h5 class="card-title" id="todayW"></h5>
-                    <p class="card-text" id="tempToday">Temperature (C): </p>
-                    <p class="card-text" id="humidityToday">Humidity: </p>
-                    <p class="card-text" id="windToday">Wind Speed: </p>
-                    <p class="card-text" id="uvToday">UV Index: </p>
+                    <p class="card-text" id="tempToday"> </p>
+                    <p class="card-text" id="humidityToday"></p>
+                    <p class="card-text" id="windToday"></p>
+                    <p class="card-text" id="uvToday"> </p>
                     <!--     <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 </div>
             </div>
@@ -75,84 +76,72 @@
 
 
 
+
+
             <!-- 5-day weather forecast -->
+            <h5 id="card-title"></h5>
             <div class="card-group">
-                <div class="card-day1 col-sm-2">
-                    <!--  <img src="..." class="card-img-top" alt="...">  -->
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title1" id="card1"></h5>
-                        <p class="card-text"></p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title" id="date1"></h5>
+                        <p class="card-text" id="icon1"></p>
+                        <p class="card-text" id="temp1"></p>
+                        <p class="card-text" id="humidity1"> </p>
                     </div>
                 </div>
-                <div class="card-day2 col-sm-2">
-                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title2" id="card2"></h5>
-                        <p class="card-text">This card has supporting text below as a natural lead-in to
-                            additional content.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title" id="date2"></h5>
+                        <p class="card-text" id="icon2"></p>
+                        <p class="card-text" id="temp2"></p>
+                        <p class="card-text" id="humidity2"> </p>
                     </div>
                 </div>
-                <div class="card-day3 col-sm-2">
-                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title3" id="card3"></h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                            lead-in to additional
-                            content. This card has even longer content than the first to show that equal height
-                            action.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title" id="date3"></h5>
+                        <p class="card-text" id="icon3"></p>
+                        <p class="card-text" id="temp3"></p>
+                        <p class="card-text" id="humidity3"> </p>
                     </div>
                 </div>
-                <div class="card-4 col-sm-2">
-                    <!--  <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title4" id="card4"></h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                            lead-in to additional
-                            content. This card has even longer content than the first to show that equal height
-                            action.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title" id="date4"></h5>
+                        <p class="card-text" id="icon4"></p>
+                        <p class="card-text" id="temp4"></p>
+                        <p class="card-text" id="humidity4"> </p>
                     </div>
                 </div>
-                <div class="card-day5 col-sm-2">
-                    <!--   <img src="..." class="card-img-top" alt="...">  -->
+                <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title5" id="card5"></h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural
-                            lead-in to additional
-                            content. This card has even longer content than the first to show that equal height
-                            action.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title" id="date5"></h5>
+                        <p class="card-text" id="icon5"></p>
+                        <p class="card-text" id="temp5"></p>
+                        <p class="card-text" id="humidity5"> </p>
                     </div>
                 </div>
-            </div>
-
-
-            <!-- Here we have our final submit button -->
-            <!--   <button type="submit" class="btn btn-default" id="run-search">
-                        <i class="fa fa-search"></i> Search</button>
-                    <button class="btn btn-default" id="clear-all">
-                        <i class="fa fa-trash"></i> Clear Results</button>
-                 -->
-
-            </form>
-        </div>
-    </div>
-    </div>
-    </div>
 
 
 
 
-    <!-- jQuery JS -->
-    <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Moment library-->
-    <script src="https://momentjs.com/downloads/moment.js"></script>
-    <!-- Code to the JavaScript File -->
-    <script src="script.js"></script>
+
+
+
+
+
+
+
+                <!-- jQuery JS -->
+                <script src=" https://code.jquery.com/jquery.js"></script>
+                <script
+                    src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+                <!-- Moment library-->
+                <script src="https://momentjs.com/downloads/moment.js"></script>
+                <!-- Code to the JavaScript File -->
+                <script src="script.js"></script>
+
+
 
 </body>
 
