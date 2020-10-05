@@ -1,37 +1,25 @@
 var today = moment().format("D/MM/YYYY");
-
 var day1 = moment().add(1, "days");
 var day2 = moment().add(2, "days");
 var day3 = moment().add(3, "days");
 var day4 = moment().add(4, "days");
 var day5 = moment().add(5, "days");
-
-
-
 var lat;
 var long;
-
 var cityHistory = [];
 var APIkey = "406718fbed1888cdf91f422159a0c803";
-
-
 /*
 // Current weather conditions: Generate weather, weather icon, humidity, wind.
 var icon_id = response.weather[0].icon;
 var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
-
 $("#todayW").append("(" + today + ")");
 $("#todayW").append(`<img src="${icon_url}">`);
 $("#tempToday").append(response.main.temp.toFixed(2));
 $("#humidityToday").append(response.main.humidity)
 $("#windToday").append(response.wind.speed);
-
 lat = response.coord.lat.toString();
 long = response.coord.lon.toString();
-
 //  $("#weatherToday").append("UV Index: " + response.main.uv);
-
-
 }).then(function (response2) {
 var queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
 // Make another ajax call to retrieve the current U.V. Index
@@ -52,15 +40,11 @@ $.ajax({
         //set my css color to a style color
         $("#uvToday").attr("id", "severe");
     }
-
 })
 })
-
 })
 })
 */
-
-
 function displayCurrentConditions(queryURL, e) {
     e.preventDefault();
     $.ajax({
@@ -72,13 +56,11 @@ function displayCurrentConditions(queryURL, e) {
         $("#todayW").append((response.name));
         var icon_id = response.weather[0].icon;
         var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
-
         $("#todayW").append("(" + today + ")");
         $("#todayW").append(`<img src="${icon_url}">`);
         var temp = response.main.temp;
         var humidity = response.main.humidity;
         var windSpeed = response.wind.speed;
-
         $("#tempToday").text("Temperature:" + temp + " ℃");
         $("#humidityToday").text("Humidity: " + humidity +"%");
         $("#windToday").text("Wind Speed: " + windSpeed + " KPH");
@@ -107,10 +89,6 @@ function displayCurrentConditions(queryURL, e) {
         })
     })
 }
-
-
-
-
 function displayFutureConditions(queryURL, e) {
     e.preventDefault();
     $.ajax({
@@ -119,6 +97,7 @@ function displayFutureConditions(queryURL, e) {
     }).then(function (response3) {
         console.log("Response 3 is: ", response3);
         // $(".list-group").empty();
+        console.log("HERE", response3)
        // Day 1 
             $("#card-title").text("5-Day Forecast");
            //  var Day1 = day1.format("D/MM/YYYY");
@@ -140,38 +119,31 @@ function displayFutureConditions(queryURL, e) {
             var icon_url3 = "http://openweathermap.org/img/w/" + icon_id3 + ".png";
         var humidity2 = response3.list[8].main.humidity;
         var temp2 = response3.list[0].main.temp;
-
             var Day2 = day2.format("D/MM/YYYY");
             $("#date2").text(Day2);
             $("#icon2").html(`<img src="${icon_url3}">`);
             $("#temp2").text("Temp: " + temp2 + " ℃");
             $("#humidity2").text("Humidity: " + humidity2 + "%");
-
-
             // Day 3.
-        $("button3").on("click", function () {
+        // $("button3").on("click", function () {
             var icon_id4 = response3.list[16].weather[0].icon;
             var icon_url4 = "http://openweathermap.org/img/w/" + icon_id4 + ".png";
             var humidity3 = response3.list[16].main.humidity;
             var temp3 = response3.list[16].main.temp;
-
             $("#date3").text(day3.format("D/MM/YYYY"));
-            $("icon3").html(`<img src="${icon_url}">`);
+            $("#icon3").html(`<img src="${icon_url4}">`);
             $("#temp3").text("Temp: " + temp3 + " ℃");
             $("#humidity3").text("Humidity: " + humidity3 + "%");
-
             
             // Day 4.
             var icon_id5 = response3.list[24].weather[0].icon;
             var icon_url5 = "http://openweathermap.org/img/w/" + icon_id5 + ".png";
             var humidity4 = response3.list[24].main.humidity;
             var temp4 = response3.list[24].main.temp;
-
             $("#date4").text(day4.format("D/MM/YYYY"));
-            $("icon4").html(`<img src="${icon_url5}">`);
+            $("#icon4").html(`<img src="${icon_url5}">`);
             $("#temp4").text("Temp: " + temp4 + " ℃");
             $("#humidity4").text("Humidity: " + humidity4 + "%");
-
             
             // Day 5.
             var icon_id6 = response3.list[32].weather[0].icon;
@@ -179,17 +151,15 @@ function displayFutureConditions(queryURL, e) {
             var humidity5 = response3.list[32].main.humidity;
             var temp5 = response3.list[32].main.temp;
             $("#date5").text(day5.format("D/MM/YYYY"));
-            $("icon5").html(`<img src="${icon_url6}">`);
+            $("#icon5").html(`<img src="${icon_url6}">`);
             $("#temp5").text("Temp: " + temp5 + " ℃");
             $("#humidity5").text("Humidity: " + humidity5 + "%");
-
-        })
+        // })
     })
 }
 // setup Eventlisteners 
 $(document).ready(function () {
     $("#run-search").on("click", function (e) {
-
         e.preventDefault();
         var cityWeather = $("#search-city")[0].value;
         
@@ -282,12 +252,4 @@ $(document).ready(function () {
         
                                     })
                                     */
-
         // Here we are building the URL we need to query the database for the current weather.
-
-
-
-  
-
-
-
