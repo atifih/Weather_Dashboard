@@ -17,9 +17,8 @@ Microsoft VScode - Code editor.
 [Terminal] - command line user interface for the z-shell.Used the program that ships with Mac OS "Catalina".
 
  ## Screenshots
-![](images/image1.png)
-![](images/image2.png)
-![](images/image3.png)
+![](images/Screenshot1.png)
+![](images/Screenshot2.png)
 
 
 
