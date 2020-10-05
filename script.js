@@ -64,7 +64,22 @@ function displayCurrentConditions(queryURL, e) {
         $("#tempToday").text("Temperature:" + temp + " ℃");
         $("#humidityToday").text("Humidity: " + humidity +"%");
         $("#windToday").text("Wind Speed: " + windSpeed + " KPH");
-        // 
+        // Store current city search in the city search history.
+        if (cityHistory.length < 5) {
+            cityHistory.push(response.name); // populate cityHistory array.
+            // Save searched city in history.
+        } else {
+
+            // remove the last city search from history and append the current city search.
+            cityHistory.splice(4, 1);
+            cityHistory.push(response.name);
+            
+            
+            
+        
+        
+    
+        // Get co-ordinates for the 2nd ajax call.
         lat = response.coord.lat.toString();
         long = response.coord.lon.toString();
         let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
@@ -87,8 +102,28 @@ function displayCurrentConditions(queryURL, e) {
                 $("#uvToday").attr("id", "severe");
             }
         })
+    
+    
+        }
+    // Output the city history to user display.
+                for(var i = 0; i < cityHistory.length; i++){
+                    if (i === 0){
+                    $("#button1").html(cityHistory[i]);
+                    console.log("city history: ", cityHistory[i]);
+                    } else if (i === 1) {
+                        $("#button2").html(cityHistory[i]);
+                    } else if (i === 2) {
+                        $("#button3").html(cityHistory[i]);
+                    } else if (i === 3) {
+                        $("#button4").html(cityHistory[i]);
+                    } else if (i === 4) {
+                        $("#button5").html(cityHistory[i]);
+                    }
+                }
     })
 }
+
+
 function displayFutureConditions(queryURL, e) {
     e.preventDefault();
     $.ajax({
@@ -97,7 +132,7 @@ function displayFutureConditions(queryURL, e) {
     }).then(function (response3) {
         console.log("Response 3 is: ", response3);
         // $(".list-group").empty();
-        console.log("HERE", response3)
+       // console.log("HERE", response3)
        // Day 1 
             $("#card-title").text("5-Day Forecast");
            //  var Day1 = day1.format("D/MM/YYYY");
@@ -166,10 +201,15 @@ $(document).ready(function () {
         let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
         let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
         let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
+
         displayCurrentConditions(queryURL, e);
-        displayFutureConditions(queryURLa, e);
+        displayFutureConditions(queryURLa, e); 
+
+        
+        })
+       
     })
-})
+
         /*
                                 var queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
                                 $.ajax({ url: queryURLa, method: "GET", }).then(function (response3) {
