@@ -16,14 +16,14 @@ The app is composed of 3 files rendering a single web page. The files associated
 Microsoft VScode - Code editor.
 [Terminal] - command line user interface for the z-shell.Used the program that ships with Mac OS "Catalina".
 
-# Screenshots
-!]!(images/image1.png)
-[]!(images/image2.png)
-[]!(images/image3.png)
+ ## Screenshots
+![](images/image1.png)
+![](images/image2.png)
+![](images/image3.png)
 
 
 
-# Licence
+## Licence
 MIT License.
 
 # Link to the App
