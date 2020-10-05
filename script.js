@@ -7,51 +7,52 @@ var day5 = moment().add(5, "days");
 var lat;
 var long;
 var cityHistory = [];
+var cityWeather = "";
 var APIkey = "406718fbed1888cdf91f422159a0c803";
-/*
-// Current weather conditions: Generate weather, weather icon, humidity, wind.
-var icon_id = response.weather[0].icon;
-var icon_url = "http://openweathermap.org/img/w/" + icon_id + ".png";
-$("#todayW").append("(" + today + ")");
-$("#todayW").append(`<img src="${icon_url}">`);
-$("#tempToday").append(response.main.temp.toFixed(2));
-$("#humidityToday").append(response.main.humidity)
-$("#windToday").append(response.wind.speed);
-lat = response.coord.lat.toString();
-long = response.coord.lon.toString();
-//  $("#weatherToday").append("UV Index: " + response.main.uv);
-}).then(function (response2) {
-var queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-// Make another ajax call to retrieve the current U.V. Index
-$.ajax({
-    url: queryURL2,
-    method: "GET",
-}).then(function (response2) {
-    // console.log("Response 2 is", response2);
-    uvIndex = response2.value;
-    $("#uvToday").append(uvIndex);
-    if (uvIndex > 2 && uvIndex < 5) {
-        $("#uvToday").attr("id", "favourable");
-        //set my class or id to have a certain css style color
-    } else if (uvIndex >= 5 && uvIndex < 7) {
-        //set my class or id to have a different css style color
-        $("#uvToday").attr("id", "moderate");
-    } else {
-        //set my css color to a style color
-        $("#uvToday").attr("id", "severe");
+
+init();
+
+
+function init() {
+    var storedCity = localStorage.getItem("cityHistory");
+    if (storedCity !== null) {
+        cityWeather = storedCity;
     }
-})
-})
-})
-})
-*/
-function displayCurrentConditions(queryURL, e) {
-    e.preventDefault;
+
+    // Setup the query urls for ajax calls.
+    let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
+    let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+    let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
+
+    // Render the last city search weather details.
+    displayCurrentConditions(queryURL);
+    displayFutureConditions(queryURLa);
+
+}
+
+
+
+function displayCurrentConditions(queryURL) {
+
+
+    var lastWeatherCity = localStorage.getItem("cityHistory");
+    console.log(lastWeatherCity);
+    // set last city searched.
+    if (lastWeatherCity !== null) {
+        // Retrieve from  local storage.
+
+        cityHistory.push(lastWeatherCity);
+        cityWeather = lastWeatherCity;
+        console.log(cityWeather);
+
+    } else if (lastWeatherCity === null) {
+        // Pre: weatherCity is null  - Local storage is empty.
+        cityWeather = cityHistory[cityHistory.length];
+    }
     $.ajax({
         url: queryURL,
         method: "GET",
     }).then(function (response) {
-        console.log("Response is: ", response);
         $("#todayW").empty();
         $("#todayW").append((response.name));
         var icon_id = response.weather[0].icon;
@@ -64,47 +65,45 @@ function displayCurrentConditions(queryURL, e) {
         $("#tempToday").text("Temperature:" + temp + " ℃");
         $("#humidityToday").text("Humidity: " + humidity + "%");
         $("#windToday").text("Wind Speed: " + windSpeed + " KPH");
-        // Store current city search in the city search history.
+        // Store current city search in the city search history local storage.
+
         if (cityHistory.length < 5) {
-            cityHistory.push(response.name); // populate cityHistory array.
             // Save searched city in history.
+            cityHistory.push(response.name); // populate cityHistory array.
+            localStorage.setItem("cityHistory", response.name)
+
         } else {
-
             // remove the last city search from history and append the current city search.
-            cityHistory.splice(4, 1);
-            cityHistory.push(response.name);
+            cityHistory.splice(1, 1, response.name);
 
-
-
-
-
-
-            // Get co-ordinates for the 2nd ajax call.
-            lat = response.coord.lat.toString();
-            long = response.coord.lon.toString();
-            let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-            // Make another ajax call to retrieve the current U.V. Index
-            $.ajax({
-                url: queryURL2,
-                method: "GET",
-            }).then(function (response2) {
-                // console.log("Response 2 is", response2);
-                uvIndex = response2.value;
-                $("#uvToday").html(uvIndex);
-                if (uvIndex > 2 && uvIndex < 5) {
-                    $("#uvToday").attr("id", "favourable");
-                    //set my class or id to have a certain css style color
-                } else if (uvIndex >= 5 && uvIndex < 7) {
-                    //set my class or id to have a different css style color
-                    $("#uvToday").attr("id", "moderate");
-                } else {
-                    //set my css color to a style color
-                    $("#uvToday").attr("id", "severe");
-                }
-            })
-
-
+            localStorage.setItem("cityHistory", response.name);
         }
+
+        // Get co-ordinates for the 2nd ajax call.
+        lat = response.coord.lat.toString();
+        long = response.coord.lon.toString();
+        let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        // Make another ajax call to retrieve the current U.V. Index
+        $.ajax({
+            url: queryURL2,
+            method: "GET",
+        }).then(function (response2) {
+            // console.log("Response 2 is", response2);
+            uvIndex = response2.value;
+            $("#uvToday").html(uvIndex);
+            if (uvIndex > 2 && uvIndex < 5) {
+                $("#uvToday").attr("id", "favourable");
+                //set my class or id to have a certain css style color
+            } else if (uvIndex >= 5 && uvIndex < 7) {
+                //set my class or id to have a different css style color
+                $("#uvToday").attr("id", "moderate");
+            } else {
+                //set my css color to a style color
+                $("#uvToday").attr("id", "severe");
+            }
+        })
+
+
         // Output the city history to user display.
         for (var i = 0; i < cityHistory.length; i++) {
             if (i === 0) {
@@ -124,15 +123,15 @@ function displayCurrentConditions(queryURL, e) {
 }
 
 
-function displayFutureConditions(queryURL, e) {
-    e.preventDefault;
+
+function displayFutureConditions(queryURL) {
+
     $.ajax({
         url: queryURL,
         method: "GET",
     }).then(function (response3) {
         console.log("Response 3 is: ", response3);
-        // $(".list-group").empty();
-        // console.log("HERE", response3)
+
         // Day 1 
         $("#card-title").text("5-Day Forecast");
         //  var Day1 = day1.format("D/MM/YYYY");
@@ -159,8 +158,9 @@ function displayFutureConditions(queryURL, e) {
         $("#icon2").html(`<img src="${icon_url3}">`);
         $("#temp2").text("Temp: " + temp2 + " ℃");
         $("#humidity2").text("Humidity: " + humidity2 + "%");
+
         // Day 3.
-        // $("button3").on("click", function () {
+
         var icon_id4 = response3.list[16].weather[0].icon;
         var icon_url4 = "http://openweathermap.org/img/w/" + icon_id4 + ".png";
         var humidity3 = response3.list[16].main.humidity;
@@ -189,21 +189,22 @@ function displayFutureConditions(queryURL, e) {
         $("#icon5").html(`<img src="${icon_url6}">`);
         $("#temp5").text("Temp: " + temp5 + " ℃");
         $("#humidity5").text("Humidity: " + humidity5 + "%");
-        // })
+
     })
 }
 // setup Eventlisteners 
 $(document).ready(function () {
+
     $("#run-search").on("click", function (e) {
         e.preventDefault();
-        var cityWeather = $("#search-city")[0].value;
+        cityWeather = $("#search-city")[0].value;
 
         let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
         let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
         let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
 
-        displayCurrentConditions(queryURL, e);
-        displayFutureConditions(queryURLa, e);
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
 
 
     })
@@ -211,85 +212,85 @@ $(document).ready(function () {
 })
 
 // Search History search event listener.
-$(document).ready(function (e) {
+$(document).ready(function () {
 
-
-    $("#button1").on("click", function () {
-
+    $("#button1").on("click", function (e) {
+        e.preventDefault();
         cityWeather = cityHistory[0];
+
         // Setup the query urls for ajax calls.
         let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
         let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
         let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
 
-        displayCurrentConditions(queryURL, e);
-        displayFutureConditions(queryURLa, e);
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
+    })
 
+    $("#button2").on("click", function (e) {
+        e.preventDefault();
+        cityWeather = cityHistory[1];
+        // Setup the query urls for ajax calls.
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
+        let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
 
-        $("#button2").on("click", function () {
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
+    })
 
-            cityWeather = cityHistory[1];
-            // Setup the query urls for ajax calls.
-            let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
-            let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-            let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
+    $("#button3").on("click", function (e) {
+        e.preventDefault();
+        cityWeather = cityHistory[2];
+        // Setup the query urls for ajax calls.
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
+        let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
 
-            displayCurrentConditions(queryURL, e);
-            displayFutureConditions(queryURLa, e);
-        })
-
-        $("#button3").on("click", function () {
-
-
-            cityWeather = cityHistory[2];
-            // Setup the query urls for ajax calls.
-            let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
-            let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-            let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
-
-            displayCurrentConditions(queryURL, e);
-            displayFutureConditions(queryURLa, e);
-
-        })
-        $("#button4").on("click", function () {
-
-            cityWeather = cityHistory[3];
-            // Setup the query urls for ajax calls.
-            let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
-            let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-            let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
-
-            displayCurrentConditions(queryURL, e);
-            displayFutureConditions(queryURLa, e);
-
-        })
-        $("#button4").on("click", function () {
-
-            cityWeather = cityHistory[4];
-            // Setup the query urls for ajax calls.
-            let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
-            let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-            let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
-
-            displayCurrentConditions(queryURL, e);
-            displayFutureConditions(queryURLa, e);
-
-        })
-        $("#button5").on("click", function (e) {
-
-            cityWeather = cityHistory[4];
-            // Setup the query urls for ajax calls.
-            let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
-            let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
-            let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
-
-            displayCurrentConditions(queryURL, e);
-            displayFutureConditions(queryURLa, e);
-        })
-
-
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
 
     })
+    $("#button4").on("click", function (e) {
+        e.preventDefault();
+        cityWeather = cityHistory[3];
+        // Setup the query urls for ajax calls.
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
+        let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
+
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
+
+    })
+    $("#button4").on("click", function (e) {
+        e.preventDefault();
+        cityWeather = cityHistory[4];
+        // Setup the query urls for ajax calls.
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
+        let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
+
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
+
+    })
+    $("#button5").on("click", function (e) {
+        e.preventDefault();
+        cityWeather = cityHistory[4];
+        // Setup the query urls for ajax calls.
+        let queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityWeather}&units=metric&appid=${APIkey}`
+        let queryURL2 = `http://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${long}&appid=${APIkey}`
+        let queryURLa = `https://api.openweathermap.org/data/2.5/forecast?q=${cityWeather}&units=metric&appid=${APIkey}`
+
+        displayCurrentConditions(queryURL);
+        displayFutureConditions(queryURLa);
+    })
 })
+
+
+
+
+
 
 
