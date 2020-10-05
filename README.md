@@ -17,16 +17,15 @@ Microsoft VScode - Code editor.
 [Terminal] - command line user interface for the z-shell.Used the program that ships with Mac OS "Catalina".
 
 # Screenshots
-![](images/Screenshot1.png)
 ![](images/Screenshot2.png)
+![](images/Screenshot3.png)
 
 
 # Licence
 MIT License.
 
 # Link to the App
-
-
+https://github.com/atifih/Weather_Dashboard
 # Authors
 Haque, Atif
 
